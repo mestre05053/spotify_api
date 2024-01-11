@@ -59,12 +59,27 @@ print('-------------------------------------')
 
 
 #print(response.json()["items"][9]['name'])
-counter = 1 
+"""counter = 1 
 print('Los 10 artistas más escuchados por el usuario')
 for i in response.json()["items"]:
     for clave , valor in i.items():
         if clave == 'name':
             print(counter, ':', valor)
-            counter +=1
+            counter +=1"""
 
-    
+def top_10():
+
+        response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
+        print('URL solicitada:',response.url)
+        print('Tiempo de respuesta:',response.elapsed)
+        print('Encoding:',response.encoding)
+        print('-------------------------------------')
+
+        counter = 1 
+        print('Los 10 artistas más escuchados por el usuario')
+        for i in response.json()["items"]:
+            for clave , valor in i.items():
+                if clave == 'name':
+                    print(counter, ':', valor)
+                    counter +=1    
+top_10()                    
