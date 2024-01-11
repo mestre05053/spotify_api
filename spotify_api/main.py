@@ -1,4 +1,5 @@
 import requests
+from collections import Counter
 
 from auth import Auth
 
@@ -47,16 +48,16 @@ response = requests.get(base_url+artistas_mas_escuchados, headers=headers, param
 
 if response:    
     pass
-    #print(response.json())
+    #print(response.text)
 else:
     print(f"Error {response.status_code}")
     print(response.content)
-
+'''
 print('URL solicitada:',response.url)
 print('Tiempo de respuesta:',response.elapsed)
 print('Encoding:',response.encoding)
 print('-------------------------------------')
-
+'''
 
 #print(response.json()["items"][9]['name'])
 """counter = 1 
@@ -75,11 +76,21 @@ def top_10():
         print('Encoding:',response.encoding)
         print('-------------------------------------')
 
-        counter = 1 
+        counter = 1
+        list_genres = []
         print('Los 10 artistas más escuchados por el usuario')
         for i in response.json()["items"]:
             for clave , valor in i.items():
                 if clave == 'name':
                     print(counter, ':', valor)
-                    counter +=1    
-top_10()                    
+                if clave == 'genres':
+                    for i in valor:
+                        list_genres.append(i)
+                    counter_list_genres = Counter(list_genres).most_common(5)
+                    counter +=1
+        print('-------------------------------------')
+        print('Los 5 géneros musicales favoritos de dicho usuario')                              
+        print(counter_list_genres)  
+top_10()
+                    
+                    
