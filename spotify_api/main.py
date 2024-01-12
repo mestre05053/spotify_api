@@ -55,12 +55,6 @@ if response:
 else:
     print(f"Error {response.status_code}")
     print(response.content)
-'''
-print('URL solicitada:',response.url)
-print('Tiempo de respuesta:',response.elapsed)
-print('Encoding:',response.encoding)
-print('-------------------------------------')
-'''
 
 #print(response.json()["items"][9]['name'])
 """counter = 1 
@@ -98,14 +92,30 @@ def top_10():
         
         print('-------------------------------------')
         print('Los 5 géneros musicales favoritos')                              
-        for i in range(len(counter_list_genres)):
-            print(i + 1,':' , counter_list_genres[i][0] )
-
+        for index, value in enumerate(counter_list_genres):
+             print(index + 1, value[0])
+        print('-------------------------------------')
         '''
         Las 10 canciones más escuchadas por el usuario y sus respectivos artistas
         '''
-        response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
-
+        response = requests.get(base_url+canciones_mas_escuchados, headers=headers, params=params)
+        print(response.json()["items"][0]["album"]["artists"][0]["name"])
+        '''albums = response.json()["albums"]["items"]
+        first_album = albums[0]
+        artist = first_album["artists"][0]
+        artist_id = artist['id']'''
+        #artist = response.json()["albums"]["items"]["artist"]
+        counter = 0
+        top_songs_artists = {}
+        print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
+        for i in response.json()["items"]:
+            for clave , valor in i.items():
+                if clave == 'name':
+                    #print(counter, ':', valor)
+                    top_songs_artists[valor]=valor
+                counter +=1
+        #print(top_songs_artists)
+              
 top_10()
                     
                     
