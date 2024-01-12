@@ -57,13 +57,6 @@ else:
     print(response.content)
 
 #print(response.json()["items"][9]['name'])
-"""counter = 1 
-print('Los 10 artistas más escuchados por el usuario')
-for i in response.json()["items"]:
-    for clave , valor in i.items():
-        if clave == 'name':
-            print(counter, ':', valor)
-            counter +=1"""
 
 def top_10():
 
@@ -102,20 +95,17 @@ def top_10():
         counter_top_songs = 1
         top_listen = {}
         for i in range(params['limit']):
-            track_name = response.json()["items"][i]["name"]
-            #print(counter_top_songs,':',track_name)
-            top_listen[track_name] = []
+            track_name_dict = response.json()["items"][i]["name"]
+            top_listen[track_name_dict] = []
             counter_top_songs += 1
             artist_names = response.json()["items"][i]["album"]["artists"]
             for i in artist_names:
-                for clave, valor in i.items():
-                    if clave == 'name':
-                        #top_listen[track_name]=valor
-                        top_listen[track_name].append(valor)
+                for track_name, artist_name in i.items():
+                    if track_name == 'name':
+                        top_listen[track_name_dict].append(artist_name)
         print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
         for clave, valor in top_listen.items():
-            print(clave, ':', str(valor)[1:-1].replace("'", ""))
-              
+            print(clave, ':', str(valor)[1:-1].replace("'", ""))            
 top_10()
                     
                     
