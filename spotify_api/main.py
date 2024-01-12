@@ -99,22 +99,22 @@ def top_10():
         Las 10 canciones más escuchadas por el usuario y sus respectivos artistas
         '''
         response = requests.get(base_url+canciones_mas_escuchados, headers=headers, params=params)
-        print(response.json()["items"][0]["album"]["artists"][0]["name"])
-        '''albums = response.json()["albums"]["items"]
-        first_album = albums[0]
-        artist = first_album["artists"][0]
-        artist_id = artist['id']'''
-        #artist = response.json()["albums"]["items"]["artist"]
-        counter = 0
-        top_songs_artists = {}
+        counter_top_songs = 1
+        top_listen = {}
+        for i in range(params['limit']):
+            track_name = response.json()["items"][i]["name"]
+            #print(counter_top_songs,':',track_name)
+            top_listen[track_name] = []
+            counter_top_songs += 1
+            artist_names = response.json()["items"][i]["album"]["artists"]
+            for i in artist_names:
+                for clave, valor in i.items():
+                    if clave == 'name':
+                        #top_listen[track_name]=valor
+                        top_listen[track_name].append(valor)
         print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
-        for i in response.json()["items"]:
-            for clave , valor in i.items():
-                if clave == 'name':
-                    #print(counter, ':', valor)
-                    top_songs_artists[valor]=valor
-                counter +=1
-        #print(top_songs_artists)
+        for clave, valor in top_listen.items():
+            print(clave, ':', str(valor)[1:-1].replace("'", ""))
               
 top_10()
                     
