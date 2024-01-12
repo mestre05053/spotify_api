@@ -97,14 +97,14 @@ def top_10():
                     counter +=1
         
         print('-------------------------------------')
-        print('Los 5 géneros musicales favoritos mas las veces que se encuentro en la lista')                              
-        print(counter_list_genres) 
+        print('Los 5 géneros musicales favoritos')                              
+        for i in range(len(counter_list_genres)):
+            print(i + 1,':' , counter_list_genres[i][0] )
 
         '''
         Las 10 canciones más escuchadas por el usuario y sus respectivos artistas
         '''
         response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
-
 
 top_10()
                     
