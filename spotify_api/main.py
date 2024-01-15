@@ -40,6 +40,7 @@ artist_id = artist['id']
 ### URLS
 artistas_mas_escuchados = 'me/top/artists'
 canciones_mas_escuchados = 'me/top/tracks'
+playlist_legendary = 'playlists/37i9dQZF1DWWGFQLoP9qlv/tracks'
 
 params = {
     'time_range' : "long_term",
@@ -92,12 +93,10 @@ def top_10():
         Las 10 canciones más escuchadas por el usuario y sus respectivos artistas
         '''
         response = requests.get(base_url+canciones_mas_escuchados, headers=headers, params=params)
-        counter_top_songs = 1
         top_listen = {}
         for i in range(params['limit']):
             track_name_dict = response.json()["items"][i]["name"]
             top_listen[track_name_dict] = []
-            counter_top_songs += 1
             artist_names = response.json()["items"][i]["album"]["artists"]
             for i in artist_names:
                 for track_name, artist_name in i.items():
@@ -106,6 +105,19 @@ def top_10():
         print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
         for clave, valor in top_listen.items():
             print(clave, ':', str(valor)[1:-1].replace("'", ""))            
-top_10()
+#top_10()
                     
-                    
+def play_list_audio_features():
+    list_tracks_id = []
+    response = requests.get(base_url+playlist_legendary, headers=headers)
+    playlist_length =  len(response.json()["items"]) 
+    for i in range(playlist_length):
+        tracks_id = response.json()["items"][i]["track"]["id"]
+        tracks_name = response.json()["items"][i]["track"]["name"]
+        list_tracks_id.append(tracks_id)
+        #print(tracks_name, tracks_id)
+        print(list_tracks_id)
+
+            
+
+play_list_audio_features()    
