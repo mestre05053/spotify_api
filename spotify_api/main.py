@@ -41,6 +41,7 @@ artist_id = artist['id']
 artistas_mas_escuchados = 'me/top/artists'
 canciones_mas_escuchados = 'me/top/tracks'
 playlist_legendary = 'playlists/37i9dQZF1DWWGFQLoP9qlv/tracks'
+audio_features = 'audio-features'
 
 params = {
     'time_range' : "long_term",
@@ -115,9 +116,10 @@ def play_list_audio_features():
         tracks_id = response.json()["items"][i]["track"]["id"]
         tracks_name = response.json()["items"][i]["track"]["name"]
         list_tracks_id.append(tracks_id)
-        #print(tracks_name, tracks_id)
-        print(list_tracks_id)
-
-            
-
+        print(len(list_tracks_id))
+        ## unpacking the list in the variable 
+        playlist_params = "ids="+",".join(list_tracks_id) 
+        #print(playlist_params)
+    playlist_reponse = requests.get(base_url+audio_features, headers=headers, params=playlist_params)
+    print(playlist_reponse.text)
 play_list_audio_features()    
