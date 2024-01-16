@@ -41,7 +41,7 @@ artist_id = artist['id']
 artistas_mas_escuchados = 'me/top/artists'
 canciones_mas_escuchados = 'me/top/tracks'
 playlist_legendary = 'playlists/37i9dQZF1DWWGFQLoP9qlv/tracks'
-audio_features = 'audio-features'
+audio_features_url = 'audio-features'
 
 params = {
     'time_range' : "long_term",
@@ -63,11 +63,6 @@ else:
 def top_10():
 
         response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
-        print('URL solicitada:',response.url)
-        print('Tiempo de respuesta:',response.elapsed)
-        print('Encoding:',response.encoding)
-        print('-------------------------------------')
-
         '''
         Los 10 artistas más escuchados por el usuario
         - A través de esos 10 artistas, obtener una lista de los 5 géneros musicales favoritos de dicho usuario
@@ -106,20 +101,60 @@ def top_10():
         print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
         for clave, valor in top_listen.items():
             print(clave, ':', str(valor)[1:-1].replace("'", ""))            
-#top_10()
                     
 def play_list_audio_features():
+    print('-------------------------------------')
+    print('Valor medio de los siguientes parámetros de todas sus canciones')   
     list_tracks_id = []
     response = requests.get(base_url+playlist_legendary, headers=headers)
     playlist_length =  len(response.json()["items"]) 
     for i in range(playlist_length):
         tracks_id = response.json()["items"][i]["track"]["id"]
-        tracks_name = response.json()["items"][i]["track"]["name"]
         list_tracks_id.append(tracks_id)
-        print(len(list_tracks_id))
-        ## unpacking the list in the variable 
-        playlist_params = "ids="+",".join(list_tracks_id) 
-        #print(playlist_params)
-    playlist_reponse = requests.get(base_url+audio_features, headers=headers, params=playlist_params)
-    print(playlist_reponse.text)
+        ## unpacking the list in the variable
+    playlist_params = "ids="+",".join(list_tracks_id) 
+    list_tracks_id = ",".join(list_tracks_id) 
+    playlist_reponse = requests.get(base_url+audio_features_url, headers=headers, params=playlist_params)
+    audio_features = ['tempo','acousticness','danceability','energy','instrumentalness','liveness','loudness','valence']
+    result = 0
+    count = 0
+    for feature in audio_features:
+        for i in range(playlist_length):
+            count += 1
+            result += playlist_reponse.json()["audio_features"][i][feature]
+        result = result / playlist_length
+        print(feature,':', result )
+        result = 0
+    print('-------------------------------------')
+    count           =0
+    tempo           =0
+    acousticness    =0 
+    danceability    =0
+    energy          =0
+    instrumentalness=0
+    liveness        =0
+    loudness        =0
+    valence         =0
+    for i in range(playlist_length):
+        tempo += playlist_reponse.json()["audio_features"][i]['tempo']
+        count += 1
+        acousticness += playlist_reponse.json()["audio_features"][i]['acousticness']
+        danceability += playlist_reponse.json()["audio_features"][i]['danceability']
+        energy += playlist_reponse.json()["audio_features"][i]['energy']
+        instrumentalness += playlist_reponse.json()["audio_features"][i]['instrumentalness']
+        liveness += playlist_reponse.json()["audio_features"][i]['liveness']
+        loudness += playlist_reponse.json()["audio_features"][i]['loudness']
+        valence += playlist_reponse.json()["audio_features"][i]['valence']
+
+
+    '''print('Tempo:',tempo/playlist_length)
+    print('Acousticness:',acousticness/playlist_length)
+    print('danceability:',danceability/playlist_length)
+    print('Energy:',energy/playlist_length)
+    print('Instrumentalness:',instrumentalness/playlist_length)
+    print('Liveness:',liveness/playlist_length)
+    print('Loudness:',loudness/playlist_length)
+    print('Valence:',valence/playlist_length)'''
+       
+top_10()    
 play_list_audio_features()    
