@@ -1,6 +1,7 @@
 import requests
-from collections import Counter
+import json 
 
+from collections import Counter
 from auth import Auth
 
 base_url = 'https://api.spotify.com/v1/'
@@ -42,6 +43,7 @@ artistas_mas_escuchados = 'me/top/artists'
 canciones_mas_escuchados = 'me/top/tracks'
 playlist_legendary = 'playlists/37i9dQZF1DWWGFQLoP9qlv/tracks'
 playlist_legendary_followers = 'playlists/37i9dQZF1DWWGFQLoP9qlv'
+playlist_legendary_cover_image = 'playlists/37i9dQZF1DWWGFQLoP9qlv/images'
 audio_features_url = 'audio-features'
 
 params = {
@@ -64,10 +66,6 @@ else:
 def top_10():
 
         response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
-        '''
-        Los 10 artistas más escuchados por el usuario
-        - A través de esos 10 artistas, obtener una lista de los 5 géneros musicales favoritos de dicho usuario
-        '''
         counter = 0
         list_genres = []
         print('Los 10 artistas más escuchados por el usuario')
@@ -80,15 +78,11 @@ def top_10():
                         list_genres.append(i)
                     counter_list_genres = Counter(list_genres).most_common(5)
                     counter +=1
-        
         print('-------------------------------------')
         print('Los 5 géneros musicales favoritos')                              
         for index, value in enumerate(counter_list_genres):
              print(index + 1, value[0])
         print('-------------------------------------')
-        '''
-        Las 10 canciones más escuchadas por el usuario y sus respectivos artistas
-        '''
         response = requests.get(base_url+canciones_mas_escuchados, headers=headers, params=params)
         top_listen = {}
         for i in range(params['limit']):
@@ -101,12 +95,24 @@ def top_10():
                         top_listen[track_name_dict].append(artist_name)
         print('Las 10 canciones más escuchadas por el usuario y sus respectivos artistas')
         for clave, valor in top_listen.items():
-            print(clave, ':', str(valor)[1:-1].replace("'", ""))            
+            print(clave, ':', str(valor)[1:-1].replace("'", ""))
+        
+        with open("spotify_api.json", "w") as outfile:
+            json.dump(top_listen, outfile, indent = 4)           
                     
 def play_list_audio_features():
-    response = requests.get(base_url+playlist_legendary_followers, headers=headers)
+    play_list_audio_features = {}
+    response = requests.get(base_url+playlist_legendary_cover_image, headers=headers)
     print('-------------------------------------')
-    print('Número de followers:', response.json()["followers"]["total"]) 
+    print('Descargando cover de la URL:', response.json()[0]["url"])
+    image_data = requests.get(response.json()[0]["url"]).content 
+    image = open('playlist_cover.jpg','wb')
+    image.write(image_data) 
+    image.close() 
+    response = requests.get(base_url+playlist_legendary_followers, headers=headers)
+    print('Número de followers:', response.json()["followers"]["total"])
+    play_list_audio_features['Followers'] = response.json()["followers"]["total"]
+    print('-------------------------------------')
     response = requests.get(base_url+playlist_legendary, headers=headers)
     playlist_length =  len(response.json()["items"]) 
     print('Valor medio de los siguientes parámetros de todas sus canciones')   
@@ -120,14 +126,15 @@ def play_list_audio_features():
     playlist_reponse = requests.get(base_url+audio_features_url, headers=headers, params=playlist_params)
     audio_features = ['tempo','acousticness','danceability','energy','instrumentalness','liveness','loudness','valence']
     result = 0
-    count = 0
     for feature in audio_features:
         for i in range(playlist_length):
-            count += 1
             result += playlist_reponse.json()["audio_features"][i][feature]
         result = result / playlist_length
         print(feature,':', result )
+        play_list_audio_features[feature] = result
         result = 0
+    with open("spotify_api.json", "a") as outfile:
+            json.dump(play_list_audio_features, outfile, indent = 4)
         
 top_10()    
 play_list_audio_features()    
