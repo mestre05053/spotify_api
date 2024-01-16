@@ -97,8 +97,8 @@ def top_10():
         for clave, valor in top_listen.items():
             print(clave, ':', str(valor)[1:-1].replace("'", ""))
         
-        with open("spotify_api.json", "w") as outfile:
-            json.dump(top_listen, outfile, indent = 4)           
+        with open("spotify_api.json", "w",encoding='utf-8') as outfile:
+            json.dump(top_listen, outfile, indent = 4,ensure_ascii=False)           
                     
 def play_list_audio_features():
     play_list_audio_features = {}
@@ -133,8 +133,8 @@ def play_list_audio_features():
         print(feature,':', result )
         play_list_audio_features[feature] = result
         result = 0
-    with open("spotify_api.json", "a") as outfile:
-            json.dump(play_list_audio_features, outfile, indent = 4)
+    with open("spotify_api.json", "a",encoding='utf-8') as outfile:
+            json.dump(play_list_audio_features, outfile, indent = 4,ensure_ascii=False)
         
 top_10()    
 play_list_audio_features()    
