@@ -41,6 +41,7 @@ artist_id = artist['id']
 artistas_mas_escuchados = 'me/top/artists'
 canciones_mas_escuchados = 'me/top/tracks'
 playlist_legendary = 'playlists/37i9dQZF1DWWGFQLoP9qlv/tracks'
+playlist_legendary_followers = 'playlists/37i9dQZF1DWWGFQLoP9qlv'
 audio_features_url = 'audio-features'
 
 params = {
@@ -103,11 +104,13 @@ def top_10():
             print(clave, ':', str(valor)[1:-1].replace("'", ""))            
                     
 def play_list_audio_features():
+    response = requests.get(base_url+playlist_legendary_followers, headers=headers)
     print('-------------------------------------')
-    print('Valor medio de los siguientes parámetros de todas sus canciones')   
-    list_tracks_id = []
+    print('Número de followers:', response.json()["followers"]["total"]) 
     response = requests.get(base_url+playlist_legendary, headers=headers)
     playlist_length =  len(response.json()["items"]) 
+    print('Valor medio de los siguientes parámetros de todas sus canciones')   
+    list_tracks_id = []
     for i in range(playlist_length):
         tracks_id = response.json()["items"][i]["track"]["id"]
         list_tracks_id.append(tracks_id)
@@ -125,36 +128,6 @@ def play_list_audio_features():
         result = result / playlist_length
         print(feature,':', result )
         result = 0
-    print('-------------------------------------')
-    count           =0
-    tempo           =0
-    acousticness    =0 
-    danceability    =0
-    energy          =0
-    instrumentalness=0
-    liveness        =0
-    loudness        =0
-    valence         =0
-    for i in range(playlist_length):
-        tempo += playlist_reponse.json()["audio_features"][i]['tempo']
-        count += 1
-        acousticness += playlist_reponse.json()["audio_features"][i]['acousticness']
-        danceability += playlist_reponse.json()["audio_features"][i]['danceability']
-        energy += playlist_reponse.json()["audio_features"][i]['energy']
-        instrumentalness += playlist_reponse.json()["audio_features"][i]['instrumentalness']
-        liveness += playlist_reponse.json()["audio_features"][i]['liveness']
-        loudness += playlist_reponse.json()["audio_features"][i]['loudness']
-        valence += playlist_reponse.json()["audio_features"][i]['valence']
-
-
-    '''print('Tempo:',tempo/playlist_length)
-    print('Acousticness:',acousticness/playlist_length)
-    print('danceability:',danceability/playlist_length)
-    print('Energy:',energy/playlist_length)
-    print('Instrumentalness:',instrumentalness/playlist_length)
-    print('Liveness:',liveness/playlist_length)
-    print('Loudness:',loudness/playlist_length)
-    print('Valence:',valence/playlist_length)'''
-       
+        
 top_10()    
 play_list_audio_features()    
