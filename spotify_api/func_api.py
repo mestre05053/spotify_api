@@ -2,7 +2,6 @@ import requests
 import json 
 
 from collections import Counter
-#from auth import Auth
 
 from spotify_api.entities.auth import Auth
 
