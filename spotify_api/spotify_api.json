@@ -17,5 +17,55 @@
         "2": "cuban alternative",
         "3": "hip hop cubano",
         "4": "rap conciencia"
+    },
+    {
+        "Chini Socio": [
+            "Los Aldeanos"
+        ],
+        "Suave - Tempera Vieja": [
+            "La Cueva Mokoya",
+            "Al2 El Aldeano",
+            "Silvito El Libre"
+        ],
+        "Enchule": [
+            "ICON",
+            "Beéle",
+            "Rios"
+        ],
+        "Amandote": [
+            "Al2 El Aldeano"
+        ],
+        "Si Te Interesa": [
+            "Beéle"
+        ],
+        "Nanae": [
+            "Jay Menez",
+            "Beéle"
+        ],
+        "Mesero": [
+            "Chris Lebron"
+        ],
+        "SI ES AMOR": [
+            "Danny Ocean"
+        ],
+        "Intro": [
+            "Los Aldeanos"
+        ],
+        "Angelito": [
+            "Ovy On The Drums",
+            "Beéle",
+            "Bad Milk"
+        ]
+    },
+    {
+        "Followers": 3420603,
+        "tempo": 116.59704285714288,
+        "acousticness": 0.3207439999999999,
+        "danceability": 0.5794571428571427,
+        "energy": 0.5520999999999999,
+        "instrumentalness": 0.019618823428571432,
+        "liveness": 0.15485142857142858,
+        "loudness": -9.53442857142857,
+        "valence": 0.5736000000000001
     }
 ]
