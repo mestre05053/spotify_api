@@ -2,7 +2,9 @@ import requests
 import json 
 
 from collections import Counter
-from auth import Auth
+#from auth import Auth
+
+from spotify_api.entities.auth import Auth
 
 class Func_api:
 
@@ -124,11 +126,9 @@ class Func_api:
     def __export_json(self):
         
         with open("spotify_api.json", "w",encoding='utf-8') as outfile:
-            json.dump([self.__artistas_favoritos,
-                       self.__generos_favoritos,
-                       self.__canciones_favoritas,
-                       self.__audio_features,
-                       ], 
-                      outfile, indent = 4,ensure_ascii=False) 
-
-Func_api()
+            json.dump({ 'artistas favoritos' : self.__artistas_favoritos,
+                        'género favoritos'   : self.__generos_favoritos,
+                        'canciones favoritas': self.__canciones_favoritas,
+                        'audio features '    : self.__audio_features,
+                    }, 
+                      outfile, indent = 4,ensure_ascii=False)

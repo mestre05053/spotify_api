@@ -11,6 +11,7 @@ import requests
 
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
+from spotify_api.config import cfg_item
 
 state = binascii.hexlify(os.urandom(20)).decode('utf-8')
 code = None
@@ -33,11 +34,11 @@ class Auth:
     __get_token_endpoint = 'api/token'
     __auth_file = 'f_token.json'
     __scope = ['user-top-read','user-read-email']
-    __secret_file = 'secret.json'
 
     def __init__(self):
         self.__data = None
-        self.__client_id, self.__client_secret = self.__load_secret()
+        self.__client_id = cfg_item("client_id") 
+        self.__client_secret = cfg_item("client_secret") 
 
     def get_token(self):
         if not os.path.isfile(Auth.__auth_file):
@@ -140,8 +141,8 @@ class Auth:
         with open(Auth.__auth_file, 'r') as file:
             self.__data = json.load(file)
 
-    def __load_secret(self):
+    '''def __load_secret(self):
         with open(Auth.__secret_file, 'r') as file:
             secret = json.load(file)
 
-        return secret.get('client_id',''), secret.get('client_secret','')
+        return secret.get('client_id',''), secret.get('client_secret','')'''

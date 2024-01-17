@@ -1,5 +1,5 @@
-[
-    {
+{
+    "artistas favoritos": {
         "1": "Los Aldeanos",
         "2": "Chris Lebron",
         "3": "Wampi",
@@ -11,14 +11,14 @@
         "9": "Mike Bahía",
         "10": "Reggi El Autentico"
     },
-    {
+    "género favoritos": {
         "0": "reggaeton colombiano",
         "1": "urbano latino",
         "2": "cuban alternative",
         "3": "hip hop cubano",
         "4": "rap conciencia"
     },
-    {
+    "canciones favoritas": {
         "Chini Socio": [
             "Los Aldeanos"
         ],
@@ -57,15 +57,15 @@
             "Bad Milk"
         ]
     },
-    {
-        "Followers": 3420603,
-        "tempo": 116.59704285714288,
-        "acousticness": 0.3207439999999999,
-        "danceability": 0.5794571428571427,
-        "energy": 0.5520999999999999,
-        "instrumentalness": 0.019618823428571432,
-        "liveness": 0.15485142857142858,
-        "loudness": -9.53442857142857,
-        "valence": 0.5736000000000001
+    "audio features ": {
+        "Followers": 3420768,
+        "tempo": 118.7710142857143,
+        "acousticness": 0.3077468285714285,
+        "danceability": 0.5854285714285712,
+        "energy": 0.5575571428571428,
+        "instrumentalness": 0.020952003714285714,
+        "liveness": 0.14476999999999993,
+        "loudness": -9.778757142857147,
+        "valence": 0.5885571428571428
     }
-]
+}
