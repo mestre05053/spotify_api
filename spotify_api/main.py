@@ -51,17 +51,12 @@ params = {
     'limit' : 10
 }
 
-#response = requests.get(base_url+"artists/"+artist_id, headers=headers, params=params)
-response = requests.get(base_url+artistas_mas_escuchados, headers=headers, params=params)
-
 if response:    
     pass
     #print(response.text)
 else:
     print(f"Error {response.status_code}")
     print(response.content)
-
-#print(response.json()["items"][9]['name'])
 
 def top_10():
 
